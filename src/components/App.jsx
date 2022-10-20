@@ -29,11 +29,13 @@ export class App extends Component {
   };
 
   componentDidMount() { 
-    if (this.state.contacts !== []) { 
-       const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
-    return this.setState({ contacts: parsedContacts });
+    const gettedContacts = localStorage.getItem('contacts');
+    if (!gettedContacts) { 
+         return
     }
-      this.setState({ contacts: [] });
+    
+    const parsedContacts = JSON.parse(gettedContacts);
+    this.setState({ contacts: parsedContacts });
   }
 
   componentDidUpdate(prevProps, prevState) { 
@@ -46,32 +48,33 @@ export class App extends Component {
     return (
       <>
         <Title>Phonebook</Title>
-        <PhonebookForm
-          addContact={(contactName, contactNumber) => {
-            if (
-              !this.state.contacts.some(contact => contact.name === contactName)
-            ) {
-              return this.setState(prevState => ({
-                contacts: [
-                  ...prevState.contacts,
-                  { id: nanoid(), name: contactName, number: contactNumber },
-                ],
-              }));
-            }
-            alert(`${contactName} is already in contacts`);
-          }}
+          <PhonebookForm
+            addContact={(contactName, contactNumber) => {
+              if (
+                !this.state.contacts.some(
+                  contact => contact.name === contactName
+                )
+              ) {
+                return this.setState(prevState => ({
+                  contacts: [
+                    ...prevState.contacts,
+                    { id: nanoid(), name: contactName, number: contactNumber },
+                  ],
+                }));
+              }
+              alert(`${contactName} is already in contacts`);
+            }}
         />
         <TitleContact>Contacts</TitleContact>
         <ContactsFilter
           initialValue={this.state.filter}
           filterChanged={filterValue => this.setState({ filter: filterValue })}
         />
-        {this.state.contacts !== [] && (
-          <ContactsList
-            contacts={this.filteredContacts()}
-            onDeleteContact={this.deleteContacts}
-          />
-        )}
+
+        <ContactsList
+          contacts={this.filteredContacts()}
+          onDeleteContact={this.deleteContacts}
+        />
       </>
     );
   }
