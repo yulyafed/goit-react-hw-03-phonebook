@@ -46,33 +46,32 @@ export class App extends Component {
     return (
       <>
         <Title>Phonebook</Title>
-          <PhonebookForm
-            addContact={(contactName, contactNumber) => {
-              if (
-                !this.state.contacts.some(
-                  contact => contact.name === contactName
-                )
-              ) {
-                return this.setState(prevState => ({
-                  contacts: [
-                    ...prevState.contacts,
-                    { id: nanoid(), name: contactName, number: contactNumber },
-                  ],
-                }));
-              }
-              alert(`${contactName} is already in contacts`);
-            }}
+        <PhonebookForm
+          addContact={(contactName, contactNumber) => {
+            if (
+              !this.state.contacts.some(contact => contact.name === contactName)
+            ) {
+              return this.setState(prevState => ({
+                contacts: [
+                  ...prevState.contacts,
+                  { id: nanoid(), name: contactName, number: contactNumber },
+                ],
+              }));
+            }
+            alert(`${contactName} is already in contacts`);
+          }}
         />
         <TitleContact>Contacts</TitleContact>
         <ContactsFilter
           initialValue={this.state.filter}
           filterChanged={filterValue => this.setState({ filter: filterValue })}
         />
-
-        <ContactsList
-          contacts={this.filteredContacts()}
-          onDeleteContact={this.deleteContacts}
-        />
+        {this.state.contacts !== [] && (
+          <ContactsList
+            contacts={this.filteredContacts()}
+            onDeleteContact={this.deleteContacts}
+          />
+        )}
       </>
     );
   }
