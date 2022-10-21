@@ -3,8 +3,7 @@ import { Component } from 'react';
 import { PhonebookForm } from './PhonebookForm/PhonebookForm';
 import { ContactsFilter } from './ContactsFilter/ContactsFilter';
 import { ContactsList } from './ContactsList/ContactsList';
-import { Title } from './App.styled';
-import { TitleContact } from './App.styled';
+import { Title, TitleContact } from './App.styled';
 
 export class App extends Component {
   state = {
@@ -12,7 +11,7 @@ export class App extends Component {
     filter: '',
   };
 
-  filteredContacts = () => {
+    filteredContacts = () => {
     if (this.state.filter.trim() === '') {
       return this.state.contacts;
     }
@@ -44,7 +43,7 @@ export class App extends Component {
     }
   }
 
-  render() {
+render() {
     return (
       <>
         <Title>Phonebook</Title>
