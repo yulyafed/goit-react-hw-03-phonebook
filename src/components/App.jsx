@@ -11,7 +11,7 @@ export class App extends Component {
     filter: '',
   };
 
-    filteredContacts = () => {
+  filteredContacts = () => {
     if (this.state.filter.trim() === '') {
       return this.state.contacts;
     }
